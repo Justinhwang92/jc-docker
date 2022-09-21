@@ -1,0 +1,25 @@
+version: '3'
+services:
+  database:
+    # path to the Dockerfile
+    build: ./database
+    # port to connect inside : port to connect outside
+    ports:
+      - '3306:3306'
+  backend:
+    build: ./backend
+    # outside directory to connect : directory inside of container
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - '5000:5000'
+    # environment variables
+    environment:
+      - DBHOST=database
+  frontend:
+    build: ./frontend
+    # outside directory to connect : directory inside of container
+    volumes:
+      - ./frontend:/home/node/app
+    ports:
+      - '8080:8080'
